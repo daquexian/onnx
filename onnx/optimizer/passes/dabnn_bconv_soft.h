@@ -84,11 +84,12 @@ struct DabnnBconvSoft final : public PredicateBasedPass {
     if (W.elem_type() != ONNX_NAMESPACE::TensorProto_DataType_FLOAT) {
       return false;
     }
-    ONNX_ASSERT(!W.is_raw_data());
-    for (const auto x : W.floats()) {
-      if (x != 1.f && x != -1.f) {
+    const auto *ptr = W.data<float>();
+    for (int i = 0; i < W.size_from_dim(0); i++) {
+      if (*ptr != 1.f && *ptr != -1.f) {
         return false;
       }
+      ptr++;
     }
 
     conv->setDomain("dabnn");
