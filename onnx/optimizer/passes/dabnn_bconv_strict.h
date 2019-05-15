@@ -23,7 +23,10 @@ struct DabnnBconvStrict final : public PredicateBasedPass {
   bool patternMatchPredicate(Node* node) override {
     if (node->kind() == kConv) {
       const auto &input0 = node->inputs()[0]->node();
-      const auto &second_order_input0 = input0->input()->node();
+      if (input0->inputs().size() == 0) {
+        return false;
+      }
+      const auto &second_order_input0 = input0->inputs()[0]->node();
       bool branch1_match = (input0->kind() == kPad && second_order_input0->kind() == Symbol("Sign")) ||
         (input0->kind() == Symbol("Sign") && second_order_input0->kind() == kPad);
       if (branch1_match) {
