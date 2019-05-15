@@ -100,11 +100,6 @@ struct DabnnBconvSoft final : public PredicateBasedPass {
       conv_pads[j] += pads[i];
       conv_pads[conv_pads_size / 2 + j] += pads[pads_size / 2 + i];
     }
-    std::cout << "pads: ";
-    for (const auto x : conv_pads) {
-      std::cout << x;
-    }
-    std::cout << std::endl;
 
     conv->is_(kpads, std::move(conv_pads));
     conv->replaceInput(0, pad->inputs()[0]);
