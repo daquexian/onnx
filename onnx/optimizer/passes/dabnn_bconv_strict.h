@@ -3,16 +3,6 @@
 
 #pragma once
 
-// Before:
-//   Z = Conv(X, Y)
-//   B = Z + A
-// After:
-//   B = Conv(X, Y, A)
-//
-// the pass can handle the following cases:
-//   case 1: A is 1D tensor and A.dim[0] == Z.dim[1]
-//   case 2: A is 1-element 1D tensor
-
 #include <numeric>
 
 #include "onnx/common/assertions.h"
@@ -21,14 +11,14 @@
 namespace ONNX_NAMESPACE {
 namespace optimization {
 
-struct DabnnBconv1 final : public PredicateBasedPass {
-  explicit DabnnBconv1()
+struct DabnnBconvStrict final : public PredicateBasedPass {
+  explicit DabnnBconvStrict()
       : PredicateBasedPass(
             PassType::Fuse,
             PassEfficiency::Complete,
             PassOptimizationType::Compute) {}
   std::string getPassName() const override {
-    return "dabnn_bconv1_strict";
+    return "dabnn_bconv_strict";
   }
   bool patternMatchPredicate(Node* node) override {
     if (node->kind() == kConv) {

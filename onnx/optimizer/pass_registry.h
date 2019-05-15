@@ -6,6 +6,8 @@
 #include "onnx/common/ir.h"
 #include "onnx/common/ir_pb_converter.h"
 #include "onnx/common/stl_backports.h"
+#include "onnx/optimizer/passes/dabnn_bconv_soft.h"
+#include "onnx/optimizer/passes/dabnn_bconv_strict.h"
 #include "onnx/optimizer/passes/eliminate_deadend.h"
 #include "onnx/optimizer/passes/eliminate_identity.h"
 #include "onnx/optimizer/passes/eliminate_nop_dropout.h"
@@ -41,6 +43,8 @@ struct GlobalPassRegistry {
 
   GlobalPassRegistry() {
     // Register the optimization passes to the optimizer.
+    registerPass<DabnnBconvSoft>();
+    registerPass<DabnnBconvStrict>();
     registerPass<NopEmptyPass>();
     registerPass<EliminateDeadEnd>();
     registerPass<EliminateNopDropout>();
