@@ -11,14 +11,14 @@
 namespace ONNX_NAMESPACE {
 namespace optimization {
 
-struct DabnnBconvExtremeSoft final : public PredicateBasedPass {
-  explicit DabnnBconvExtremeSoft()
+struct DabnnBconvAggressive final : public PredicateBasedPass {
+  explicit DabnnBconvAggressive()
       : PredicateBasedPass(
             PassType::Fuse,
             PassEfficiency::Complete,
             PassOptimizationType::Compute) {}
   std::string getPassName() const override {
-    return "dabnn_bconv_extreme_soft";
+    return "dabnn_bconv_aggressive";
   }
   bool patternMatchPredicate(Node* node) override {
     return node->kind() == kConv;
