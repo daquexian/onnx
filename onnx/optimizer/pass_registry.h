@@ -9,6 +9,7 @@
 #include "onnx/optimizer/passes/dabnn_bconv_aggressive.h"
 #include "onnx/optimizer/passes/dabnn_bconv_moderate.h"
 #include "onnx/optimizer/passes/dabnn_bconv_strict.h"
+#include "onnx/optimizer/passes/dabnn_convert_gemm_with_reshape_or_flatten_to_conv_and_reshape.h"
 #include "onnx/optimizer/passes/eliminate_deadend.h"
 #include "onnx/optimizer/passes/eliminate_identity.h"
 #include "onnx/optimizer/passes/eliminate_nop_dropout.h"
@@ -47,6 +48,7 @@ struct GlobalPassRegistry {
     registerPass<DabnnBconvAggressive>();
     registerPass<DabnnBconvModerate>();
     registerPass<DabnnBconvStrict>();
+    registerPass<DabnnGemmToConv>();
     registerPass<NopEmptyPass>();
     registerPass<EliminateDeadEnd>();
     registerPass<EliminateNopDropout>();
