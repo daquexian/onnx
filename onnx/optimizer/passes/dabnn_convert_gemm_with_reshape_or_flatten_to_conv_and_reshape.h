@@ -35,11 +35,11 @@ struct DabnnGemmToConv final : public PredicateBasedPass {
     destroy_current = NodeDestroyType::DestroyZero;
     Node* gemm = n;
     {
-      const auto alpha = gemm->f(kalpha);
-      const auto beta = gemm->f(kbeta);
-      const auto transA = gemm->i(ktransA);
-      const auto transB = gemm->i(ktransB);
-      if (!(alpha == 1 && beta == 1 && transA == 0 && transB == 1)) {
+      const float alpha = gemm->hasAttribute(kalpha) ? gemm->f(kalpha) : 1.f;
+      const float beta = gemm->hasAttribute(kbeta) ? gemm->f(kbeta) : 1.f;
+      const int transA = gemm->hasAttribute(ktransA) ? gemm->i(ktransA) : 0;
+      const int transB = gemm->hasAttribute(ktransB) ? gemm->i(ktransB) : 0;
+      if (!(alpha == 1.f && beta == 1.f && transA == 0 && transB == 1)) {
         return false;
       }
     }
