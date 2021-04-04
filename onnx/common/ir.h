@@ -326,6 +326,11 @@ public:
   const std::vector<Dimension>& sizes() const {
     return sizes_;
   }
+  void clearMetadata() {
+    has_sizes_ = false;
+    sizes_.clear();
+    elem_type_ = ONNX_NAMESPACE::TensorProto_DataType_UNDEFINED;
+  }
   size_t unique() const {
     return unique_;
   }
