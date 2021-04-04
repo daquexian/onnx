@@ -19,7 +19,7 @@ The ONNX project, going forward, will plan to release roughly on a two month cad
 [ONNX proto files](../onnx/onnx.in.proto),
 [Versioning.md](Versioning.md),
 [schema.h](../onnx/defs/schema.h),
-[helper.py](../onnx/helper.py) and [helper_test.py](../onnx/helper_test.py). Please note that this also needs to be happened in the main branch before creating the release branch.
+[helper.py](../onnx/helper.py) and [helper_test.py](../onnx/test/helper_test.py). Please note that this also needs to be happened in the main branch before creating the release branch.
 
 * Create a release branch (please use rel-* as the branch name) from master. Checkout the release tag in a clean branch on your local repo. Make sure all tests pass on that branch.
 * Create an issue in onnxruntime to update onnx commit in onnxruntime to the release branch commit and run all the CI and packaging pipelines.
@@ -70,7 +70,7 @@ The ONNX project, going forward, will plan to release roughly on a two month cad
 
 **Partner Validation**
 
- * Test with onnxruntime package: To test the interaction with onnxruntime, use ONNX functions like `load`, `checker.check_model`, `shape_inference.infer_shapes`, `save` with onnxruntime functions like `InferenceSession` and `InferenceSession.run` on certain example ONNX model. For example, run the test script from ``.github/workflows/test_with_ort.py`` with installed onnxruntime package.
+ * Test with onnxruntime package: To test the interaction with onnxruntime, use ONNX functions like `load`, `checker.check_model`, `shape_inference.infer_shapes`, `save` with onnxruntime functions like `InferenceSession` and `InferenceSession.run` on certain example ONNX model. For example, run the test script from [test_with_ort.py](../onnx/test/test_with_ort.py) with installed onnxruntime package.
 
  * Test with ONNX converters: Create GitHub issues in converters repos to provide them the package links and have them test the TestPyPI packages.
    * https://github.com/pytorch/pytorch

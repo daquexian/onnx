@@ -409,18 +409,17 @@ ONNX_OPERATOR_SET_SCHEMA(
         .TypeAndShapeInferenceFunction([](InferenceContext& ctx) {
           ctx.getOutputType(0)->mutable_tensor_type()->set_elem_type(
               TensorProto::INT64);
+          auto* output_shape =
+              ctx.getOutputType(0)->mutable_tensor_type()->mutable_shape();
+          auto* output_length = output_shape->add_dim();
 
           if (!hasNInputShapes(ctx, 1)) {
             return;
           }
 
           if (ctx.getInputType(0)->tensor_type().has_shape()) {
-            ctx.getOutputType(0)
-                ->mutable_tensor_type()
-                ->mutable_shape()
-                ->add_dim()
-                ->set_dim_value(
-                    ctx.getInputType(0)->tensor_type().shape().dim_size());
+            output_length->set_dim_value(
+                ctx.getInputType(0)->tensor_type().shape().dim_size());
           }
         }));
 
@@ -1855,6 +1854,35 @@ ONNX_OPERATOR_SET_SCHEMA(
         .TypeAndShapeInferenceFunction([](InferenceContext& ctx) {
           resizeShapeInference(ctx, true);
         }));
+
+ONNX_OPERATOR_SET_SCHEMA(
+    Identity,
+    13,
+    OpSchema()
+        .SetDoc("Identity operator")
+        .Input(
+            0,
+            "input",
+            "Input tensor",
+            "T",
+            OpSchema::Single,
+            true,
+            1,
+            OpSchema::Differentiable)
+        .Output(
+            0,
+            "output",
+            "Tensor to copy input into.",
+            "T",
+            OpSchema::Single,
+            true,
+            1,
+            OpSchema::Differentiable)
+        .TypeConstraint(
+            "T",
+            OpSchema::all_tensor_types_with_bfloat(),
+            "Constrain input and output types to all tensor types.")
+        .TypeAndShapeInferenceFunction(propagateShapeAndTypeFromFirstInput));
 
 ONNX_OPERATOR_SET_SCHEMA(
     Identity,
